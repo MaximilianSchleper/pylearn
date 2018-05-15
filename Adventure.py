@@ -77,6 +77,6 @@ while not done:
         print("You can't go that way")
     else:
         current_room = next_room
-        print()
+
 
 # todo: second story, inventory
