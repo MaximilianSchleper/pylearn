@@ -1,61 +1,71 @@
 """
- Pygame base template for opening a window
+Pygame base template for opening a window, done with functions
 
  Sample Python/Pygame Programs
  Simpson College Computer Science
  http://programarcadegames.com/
  http://simpson.edu/computer-science/
 
- Explanation video: http://youtu.be/vRB_983kUMc
 """
 
 import pygame
 
-# Define some colors
+# The use of the main function is described in Chapter 9.
+
+# Define some colors as global constants
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
-pygame.init()
 
-# Set the width and height of the screen [width, height]
-size = (700, 500)
-screen = pygame.display.set_mode(size)
+def main():
+    """ Main function for the game. """
+    pygame.init()
 
-pygame.display.set_caption("My Game")
+    # Set the width and height of the screen [width,height]
+    size = [700, 500]
+    screen = pygame.display.set_mode(size)
 
-# Loop until the user clicks the close button.
-done = False
+    pygame.display.set_caption("My Game")
 
-# Used to manage how fast the screen updates
-clock = pygame.time.Clock()
+    # Loop until the user clicks the close button.
+    done = False
 
-# -------- Main Program Loop -----------
-while not done:
-    # --- Main event loop
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
+    # Used to manage how fast the screen updates
+    clock = pygame.time.Clock()
 
-    # --- Game logic should go here
+    # -------- Main Program Loop -----------
+    while not done:
+        # ALL EVENT PROCESSING SHOULD GO BELOW THIS COMMENT
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+        # ALL EVENT PROCESSING SHOULD GO ABOVE THIS COMMENT
 
-    # --- Screen-clearing code goes here
+        # ALL GAME LOGIC SHOULD GO BELOW THIS COMMENT
 
-    # Here, we clear the screen to white. Don't put other drawing commands
-    # above this, or they will be erased with this command.
+        # ALL GAME LOGIC SHOULD GO ABOVE THIS COMMENT
 
-    # If you want a background image, replace this clear with blit'ing the
-    # background image.
-    screen.fill(WHITE)
+        # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
 
-    # --- Drawing code should go here
+        # First, clear the screen to white. Don't put other drawing commands
+        # above this, or they will be erased with this command.
+        screen.fill(WHITE)
 
-    # --- Go ahead and update the screen with what we've drawn.
-    pygame.display.flip()
+        # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
-    # --- Limit to 60 frames per second
-    clock.tick(60)
+        # Go ahead and update the screen with what we've drawn.
+        pygame.display.flip()
 
-# Close the window and quit.
-pygame.quit()
+        # Limit to 60 frames per second
+        clock.tick(60)
+
+    # Close the window and quit.
+    # If you forget this line, the program will 'hang'
+    # on exit if running from IDLE.
+    pygame.quit()
+
+
+if __name__ == "__main__":
+    main()
