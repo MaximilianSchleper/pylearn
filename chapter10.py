@@ -38,7 +38,7 @@ def main():
     pygame.init()
 
     # Set the width and height of the screen [width,height]
-    size = [700, 500]
+    size = [500, 700]
     screen = pygame.display.set_mode(size)
 
     pygame.display.set_caption("My Game")
@@ -69,13 +69,13 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 # if it was an arrow key adjust speed
                 if event.key == pygame.K_LEFT:
-                    x_speed = -3
+                    x_speed = -4
                 elif event.key == pygame.K_RIGHT:
-                    x_speed = 3
+                    x_speed = 4
                 elif event.key == pygame.K_UP:
-                    y_speed = -3
+                    y_speed = -4
                 elif event.key == pygame.K_DOWN:
-                    y_speed = 3
+                    y_speed = 4
 
             # user let up on a key
             elif event.type == pygame.KEYUP:

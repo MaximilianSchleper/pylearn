@@ -23,17 +23,26 @@ clock = pygame.time.Clock()
 
 # Starting x position of the rectangle
 # Note how this is outside the main while loop.
-# rect_x = 50
-# rect_y = 50
-#
-# x_speed = 3
-# y_speed = 3
-snow_list = []
+rect_x = 50
+rect_y = 50
 
-for i in range(400):
-    x = random.randrange(0, 700)
-    y = random.randrange(-500, 0)
-    snow_list.append([x, y])
+x_speed = 5
+y_speed = 5
+
+rect_list = []
+
+for i in range(20):
+    rect_x = random.randrange(0, 700)
+    rect_y = random.randrange(0, 500)
+    rect_list.append([rect_x, rect_y])
+
+
+# snow_list = []
+#
+# for i in range(400):
+#     x = random.randrange(0, 700)
+#     y = random.randrange(-500, 0)
+#     snow_list.append([x, y])
 
 # -------- Main Program Loop -----------
 
@@ -58,34 +67,35 @@ while not done:
 
             # bouncing rectagle
 
-    # pygame.draw.rect(screen, WHITE, [rect_x, rect_y, 50, 50])
-    # pygame.draw.rect(screen, RED, [rect_x + 10, rect_y + 10, 30, 30])
-    # rect_x += x_speed
-    # rect_y += y_speed
-    #
-    # if rect_y > 450:
-    #     y_speed *= -1
-    # if rect_x > 650:
-    #     x_speed *= -1
-    #
-    #
-    # if rect_y < 0:
-    #     y_speed *= -1
-    # if rect_x < 0:
-    #     x_speed *= -1
+# doesnt work
+    for i in range(len(rect_list)):
+        pygame.draw.rect(screen, WHITE, [rect_list[i], 50, 50])
+        rect_x += x_speed
+        rect_y += y_speed
+
+    if rect_y > 450:
+        y_speed *= -1
+    if rect_x > 650:
+        x_speed *= -1
+
+
+    if rect_y < 0:
+        y_speed *= -1
+    if rect_x < 0:
+        x_speed *= -1
 
             # animating snow
 
-    for i in range(len(snow_list)):
-        pygame.draw.circle(screen, WHITE, snow_list[i], 2)
-
-        snow_list[i][1] += 2
-
-        if snow_list[i][1] > 500:
-            y = random.randrange(-500, 0)
-            snow_list[i][1] = y
-            x = random.randrange(0, 700)
-            snow_list[i][0] = x
+    # for i in range(len(snow_list)):
+    #     pygame.draw.circle(screen, WHITE, snow_list[i], 2)
+    #
+    #     snow_list[i][1] += 2
+    #
+    #     if snow_list[i][1] > 500:
+    #         y = random.randrange(-500, 0)
+    #         snow_list[i][1] = y
+    #         x = random.randrange(0, 700)
+    #         snow_list[i][0] = x
 
 
     # --- Go ahead and update the screen with what we've drawn.
