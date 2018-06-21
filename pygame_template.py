@@ -16,7 +16,9 @@ import pygame
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
-RED = (255, 0, 0)
+RED = (255, 0, 0
+
+
 
 # function definition below
 
@@ -37,6 +39,7 @@ def main():
     # Used to manage how fast the screen updates
     clock = pygame.time.Clock()
 
+
     # -------- Main Program Loop -----------
     while not done:
         # ALL EVENT PROCESSING SHOULD GO BELOW THIS COMMENT
@@ -53,7 +56,8 @@ def main():
 
         # First, clear the screen to white. Don't put other drawing commands
         # above this, or they will be erased with this command.
-        screen.fill(WHITE)
+        screen.fill(BLACK)
+
 
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
