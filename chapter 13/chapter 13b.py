@@ -1,19 +1,26 @@
-""" Pygame base template """
+"""
+Pygame base template for opening a window, done with functions
 
-''' Imports '''
+ Sample Python/Pygame Programs
+ Simpson College Computer Science
+ http://programarcadegames.com/
+ http://simpson.edu/computer-science/
+
+"""
+
 import pygame
 import random
 
-''' Globals '''
+# The use of the main function is described in Chapter 9.
+
+# Define some colors as global constants
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
-SCREEN_WIDTH = 700
-SCREEN_HEIGHT = 400
-
-''' Classes '''
+screen_width = 700
+screen_height = 400
 
 class Block(pygame.sprite.Sprite):
 
@@ -32,12 +39,12 @@ class Block(pygame.sprite.Sprite):
     def reset_pos(self):
         ''' reset positon to tio at random x called by update'''
         self.rect.y = random.randrange(-100, -10)
-        self.rect.x = random.randrange(SCREEN_WIDTH - 20)
+        self.rect.x = random.randrange(screen_width - 20)
 
     def update(self):
         '''called each frame'''
         self.rect.y += 1
-        if self.rect.y > SCREEN_HEIGHT:
+        if self.rect.y > screen_height:
             self.reset_pos()
 
 
@@ -73,8 +80,8 @@ class Game():
         for i in range(50):
             block = Block(BLACK, 20, 15)
 
-            block.rect.x = random.randrange(SCREEN_WIDTH - 20)
-            block.rect.y = random.randrange(SCREEN_HEIGHT- 15)
+            block.rect.x = random.randrange(screen_width - 20)
+            block.rect.y = random.randrange(screen_height - 15)
 
             self.block_list.add(block)
             self.all_sprites_list.add(block)
@@ -119,8 +126,8 @@ class Game():
             # display a text in the middle of the screen
             font = pygame.font.SysFont("serif", 25)
             text = font.render("Game Over, click to restart", True, BLACK)
-            x = (SCREEN_WIDTH // 2) - (text.get_width() // 2)
-            y = (SCREEN_HEIGHT // 2) - (text.get_height() // 2)
+            x = (screen_width // 2) - (text.get_width() // 2)
+            y = (screen_height // 2) - (text.get_height() // 2)
             screen.blit(text, [x, y])
         # if game is not over
         else:
@@ -128,13 +135,11 @@ class Game():
 
         pygame.display.flip()
 
-''' Main function '''
-
 def main():
 
     pygame.init()
 
-    size = [SCREEN_WIDTH, SCREEN_HEIGHT]
+    size = [screen_width, screen_height]
     screen = pygame.display.set_mode(size)
 
     pygame.display.set_caption("My Game")
