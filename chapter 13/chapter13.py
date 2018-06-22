@@ -37,8 +37,27 @@ class Block(pygame.sprite.Sprite):
 pygame.init()
 
 # Set the width and height of the screen [width,height]
-size = [700, 500]
-screen = pygame.display.set_mode(size)
+screen_width = 700
+screen_height = 400
+screen = pygame.display.set_mode([screen_width, screen_height])
+
+# list is managed by Group class
+block_list = pygame.sprite.Group()
+
+# this is a list of every sprite. all blocks aswell as player block
+all_sprites_list = pygame.sprite.Group()
+
+for i in range(50):
+    block = Block(BLACK, 20, 15)
+
+    block.rect.x = random.randrange(screen_width - 20)
+    block.rect.y = random.randrange(screen_height - 15)
+
+    block_list.add(block)
+    all_sprites_list.add(block)
+
+player = Block(RED, 20, 15)
+all_sprites_list.add(player)
 
 pygame.display.set_caption("My Game")
 
@@ -48,6 +67,7 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
+score = 0
 
 # -------- Main Program Loop -----------
 while not done:
@@ -58,6 +78,18 @@ while not done:
     # ALL EVENT PROCESSING SHOULD GO ABOVE THIS COMMENT
 
     # ALL GAME LOGIC SHOULD GO BELOW THIS COMMENT
+    pos = pygame.mouse.get_pos()
+
+    player.rect.x = pos[0]
+    player.rect.y = pos[1]
+
+    # see if player has collided with anything. remove blocks, the player collided with
+    blocks_hit_list = pygame.sprite.spritecollide(player, block_list, True)
+
+    # check the list of collisions and add them to the score
+    if len(blocks_hit_list) > 0:
+        score += len(blocks_hit_list)
+        print(score)
 
     # ALL GAME LOGIC SHOULD GO ABOVE THIS COMMENT
 
@@ -65,8 +97,9 @@ while not done:
 
     # First, clear the screen to white. Don't put other drawing commands
     # above this, or they will be erased with this command.
-    screen.fill(BLACK)
+    screen.fill(WHITE)
 
+    all_sprites_list.draw(screen)
 
     # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
