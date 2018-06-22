@@ -19,7 +19,7 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
 class Rectangle():
-    def __set__(self, instance, value):
+    def __set__(self):
         self.x = 0
         self.y = 0
         self.width = 10

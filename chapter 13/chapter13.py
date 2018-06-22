@@ -9,6 +9,7 @@ Pygame base template for opening a window, done with functions
 """
 
 import pygame
+import random
 
 # The use of the main function is described in Chapter 9.
 
@@ -18,6 +19,9 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
+class Block(pygame.sprite.Sprite):
+
+    def __init__(self, color, width, height):
 
 
 # function definition below
