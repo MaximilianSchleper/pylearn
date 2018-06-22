@@ -28,8 +28,9 @@ def main():
     pygame.init()
 
     # Set the width and height of the screen [width,height]
-    size = [700, 500]
-    screen = pygame.display.set_mode(size)
+    screen_width = 700
+    screen_height = 400
+    screen = pygame.display.set_mode([screen_width, screen_height])
 
     pygame.display.set_caption("My Game")
 
