@@ -62,18 +62,11 @@ class Game():
 
         if self.game_over:
             # display a text in the middle of the screen
-            # display a text in the middle of the screen
-            font = pygame.font.SysFont("serif", 45)
-            text1 = font.render("Game Over!", True, BLACK)
-            x = (SCREEN_WIDTH // 2) - (text1.get_width() // 2)
-            y = (SCREEN_HEIGHT // 2) - (text1.get_height() // 2) - 25
-            screen.blit(text1, [x, y])
-
             font = pygame.font.SysFont("serif", 25)
-            text2 = font.render("Click to restart", True, BLACK)
-            x = (SCREEN_WIDTH / 2) - (text2.get_width() // 2)
-            y = (SCREEN_HEIGHT // 2) - (text2.get_height() // 2) + 25
-            screen.blit(text2, [x, y])
+            text = font.render("Game Over, click to restart", True, BLACK)
+            x = (SCREEN_WIDTH // 2) - (text.get_width() // 2)
+            y = (SCREEN_HEIGHT // 2) - (text.get_height() // 2)
+            screen.blit(text, [x, y])
         # if game is not over
         else:
             self.all_sprites_list.draw(screen)
