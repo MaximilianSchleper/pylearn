@@ -121,7 +121,7 @@ def main():
     size = [SCREEN_WIDTH, SCREEN_HEIGHT]
     screen = pygame.display.set_mode(size)
 
-    pygame.display.set_caption("My Game")
+    pygame.display.set_caption("Collecting Sprites")
     pygame.mouse.set_visible(False)
 
     # create ort objects and set the data
