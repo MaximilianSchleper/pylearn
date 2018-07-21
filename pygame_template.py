@@ -9,6 +9,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
+BLUE = (0, 0, 255)
 
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 400
@@ -19,15 +20,7 @@ SCREEN_HEIGHT = 400
 
 class Game():
     ''' Attributes '''
-    # all the data we need to run the game
 
-    # sprite lists
-    block_list = None
-    all_sprites_list = None
-    player = None
-    game_over = False
-
-    ''' methods '''
     # setup the game
     def __init__(self):
         self.score = 0
@@ -38,6 +31,7 @@ class Game():
         self.all_sprites_list = pygame.sprite.Group()
 
 
+    ''' methods '''
     # closing window and restarting game
     def process_events(self):
         for event in pygame.event.get():

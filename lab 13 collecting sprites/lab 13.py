@@ -1,3 +1,5 @@
+# todo: Step 8: add sound
+
 """ collecting sprites """
 
 ''' Imports '''
@@ -9,6 +11,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
+BLUE = (0, 0, 255)
 
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 400
@@ -27,17 +30,26 @@ class Block(pygame.sprite.Sprite):
 
 class Player(pygame.sprite.Sprite):
     # this class represents the player
-    def __init__(self):
+    def __init__(self, x, y):
         super().__init__()
         self.image = pygame.Surface([20, 20])
-        self.image.fill(RED)
+        self.image.fill(BLUE)
 
         self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+        #speed
+        self.change_x = 0
+        self.change_y = 0
+
+    def changespeed(self, x, y):
+        self.change_x += x
+        self.change_y += y
 
     def update(self):
-        pos = pygame.mouse.get_pos()
-        self.rect.x = pos[0]
-        self.rect.y = SCREEN_HEIGHT - 30
+        self.rect.x += self.change_x
+        self.rect.y += self.change_y
 
 ''' Game class '''
 
@@ -45,20 +57,16 @@ class Game():
     ''' Attributes '''
     # all the data we need to run the game
 
-    # sprite lists
-    block_list = None
-    all_sprites_list = None
-    player = None
-    game_over = False
-
-    ''' methods '''
     # setup the game
     def __init__(self):
         self.score = 0
         self.game_over = False
+        # Select the font to use, size, bold, italics
+        self.font = pygame.font.SysFont('Calibri', 25, True, False)
 
         # create sprite lists
-        self.block_list = pygame.sprite.Group()
+        self.good_block_list = pygame.sprite.Group()
+        self.bad_block_list = pygame.sprite.Group()
         self.all_sprites_list = pygame.sprite.Group()
 
         for i in range(50):
@@ -66,9 +74,21 @@ class Game():
 
             self.block.rect.x = random.randrange(SCREEN_WIDTH - 20)
             self.block.rect.y = random.randrange(300)
-            self.block_list.add(self.block)
+            self.good_block_list.add(self.block)
+            self.all_sprites_list.add(self.block
+                                      )
+        for i in range(50):
+            self.block = Block(RED)
+
+            self.block.rect.x = random.randrange(SCREEN_WIDTH - 20)
+            self.block.rect.y = random.randrange(300)
+            self.bad_block_list.add(self.block)
             self.all_sprites_list.add(self.block)
 
+        self.player = Player(SCREEN_WIDTH / 2 - 10, SCREEN_HEIGHT - 20)
+        self.all_sprites_list.add(self.player)
+
+    ''' methods '''
 
     # closing window and restarting game
     def process_events(self):
@@ -79,14 +99,57 @@ class Game():
                 if self.game_over:
                     self.__init__()
 
+            # Set the speed based on the key pressed
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self.player.changespeed(-3, 0)
+                elif event.key == pygame.K_RIGHT:
+                    self.player.changespeed(3, 0)
+                elif event.key == pygame.K_UP:
+                    self.player.changespeed(0, -3)
+                elif event.key == pygame.K_DOWN:
+                    self.player.changespeed(0, 3)
+
+            # Reset speed when key goes up
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    self.player.changespeed(3, 0)
+                elif event.key == pygame.K_RIGHT:
+                    self.player.changespeed(-3, 0)
+                elif event.key == pygame.K_UP:
+                    self.player.changespeed(0, 3)
+                elif event.key == pygame.K_DOWN:
+                    self.player.changespeed(0, -3)
+
         return False
 
-    # this method is rin each frame. it updates positions and checks for collisions
+    # this method is run each frame. it updates positions and checks for collisions
     def run_logic(self):
 
         if not self.game_over:
             # move all the sprites
             self.all_sprites_list.update()
+
+            # check if x_coord is out of screen bounderies
+            if self.player.rect.x  < 0:
+                self.player.rect.x = 0
+            elif self.player.rect.x > SCREEN_WIDTH - 20:
+                self.player.rect.x = SCREEN_WIDTH - 20
+
+            # check if y_coord is out of screen bounderies
+            if self.player.rect.y < 0:
+                self.player.rect.y = 0
+            elif self.player.rect.y > SCREEN_HEIGHT - 20:
+                self.player.rect.y = SCREEN_HEIGHT - 20
+
+            # check for collisions
+            self.good_block_hit_list = pygame.sprite.spritecollide(self.player, self.good_block_list, True)
+            for i in self.good_block_hit_list:
+                self.score += 1
+
+            self.bad_block_hit_list = pygame.sprite.spritecollide(self.player, self.bad_block_list, True)
+            for i in self.bad_block_hit_list:
+                self.score -= 1
 
 
     def display_frame(self, screen):
@@ -109,6 +172,13 @@ class Game():
         # if game is not over
         else:
             self.all_sprites_list.draw(screen)
+
+            # display score
+            # Render the text. "True" means anti-aliased text.
+            # Black is the color. This creates an image of the
+            # letters, but does not put it on the screen
+            text = self.font.render("score: "+ str(self.score), True, BLACK)
+            screen.blit(text, [20, 360])
 
         pygame.display.flip()
 
