@@ -1,4 +1,4 @@
-# todo: Step 8: add sound
+# todo: Step 9 and put more stuff in objects maybe
 
 """ collecting sprites """
 
@@ -15,6 +15,7 @@ BLUE = (0, 0, 255)
 
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 400
+
 
 ''' Classes '''
 
@@ -127,30 +128,41 @@ class Game():
     # this method is run each frame. it updates positions and checks for collisions
     def run_logic(self):
 
+        # sounds (how to fix the delay????????) how to import sounds globaly?
+        wall_hit_sound = pygame.mixer.Sound("sfx_sounds_impact1.wav")
+        good_block_sound = pygame.mixer.Sound("sfx_coin_double1.wav")
+        bad_block_sound = pygame.mixer.Sound("sfx_sounds_damage3.wav")
+
         if not self.game_over:
             # move all the sprites
             self.all_sprites_list.update()
 
             # check if x_coord is out of screen bounderies
-            if self.player.rect.x  < 0:
+            if self.player.rect.x < 0:
                 self.player.rect.x = 0
+                wall_hit_sound.play()
             elif self.player.rect.x > SCREEN_WIDTH - 20:
                 self.player.rect.x = SCREEN_WIDTH - 20
+                wall_hit_sound.play()
 
             # check if y_coord is out of screen bounderies
             if self.player.rect.y < 0:
                 self.player.rect.y = 0
+                wall_hit_sound.play()
             elif self.player.rect.y > SCREEN_HEIGHT - 20:
+                wall_hit_sound.play()
                 self.player.rect.y = SCREEN_HEIGHT - 20
 
             # check for collisions
             self.good_block_hit_list = pygame.sprite.spritecollide(self.player, self.good_block_list, True)
             for i in self.good_block_hit_list:
                 self.score += 1
+                good_block_sound.play()
 
             self.bad_block_hit_list = pygame.sprite.spritecollide(self.player, self.bad_block_list, True)
             for i in self.bad_block_hit_list:
                 self.score -= 1
+                bad_block_sound.play()
 
             # game over if all good sprites are collected
             if len(self.good_block_list) == 0:
@@ -210,6 +222,7 @@ def main():
     done = False
     clock = pygame.time.Clock()
     game = Game()
+
 
     ''' Main Loop '''
     while not done:
