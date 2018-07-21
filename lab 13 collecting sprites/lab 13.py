@@ -21,7 +21,7 @@ SCREEN_HEIGHT = 400
 class Block(pygame.sprite.Sprite):
     # this class represents a block
     def __init__(self, color):
-        super().__init__()                     # super()
+        super().__init__()
 
         self.image = pygame.Surface([20, 15])
         self.image.fill(color)
@@ -95,9 +95,10 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return True
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.game_over:
-                    self.__init__()
+            if self.game_over:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self.__init__()
 
             # Set the speed based on the key pressed
             elif event.type == pygame.KEYDOWN:
@@ -151,6 +152,10 @@ class Game():
             for i in self.bad_block_hit_list:
                 self.score -= 1
 
+            # game over if all good sprites are collected
+            if len(self.good_block_list) == 0:
+                self.game_over = True
+
 
     def display_frame(self, screen):
         screen.fill(WHITE)
@@ -165,10 +170,17 @@ class Game():
             screen.blit(text1, [x, y])
 
             font = pygame.font.SysFont("serif", 25)
-            text2 = font.render("Click to restart", True, BLACK)
-            x = (SCREEN_WIDTH / 2) - (text2.get_width() // 2)
+            text2 = font.render("Press space to restart", True, BLACK)
+            #x = (SCREEN_WIDTH / 2) - (text2.get_width() // 2)
             y = (SCREEN_HEIGHT // 2) - (text2.get_height() // 2) + 25
             screen.blit(text2, [x, y])
+
+            if self.score != 0:
+                font = pygame.font.SysFont("serif", 15)
+                score_text = font.render("Your score is: " + str(self.score), True, BLACK)
+                y = (SCREEN_HEIGHT // 2) - (text2.get_height() // 2) + 50
+                screen.blit(score_text, [x, y])
+
         # if game is not over
         else:
             self.all_sprites_list.draw(screen)
